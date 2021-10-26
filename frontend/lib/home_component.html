@@ -1,0 +1,47 @@
+<header class="header row">
+  <div class="leading">
+    <h2>AppSync Explorer</h2>
+    <fo-dropdown-select label="Choose a schema" [options]="dropdownOptions" [selectedId]="selectedDropdownOption" (selectedIdChange)="onSelectSchema($event)"></fo-dropdown-select>
+  </div>
+  <div class="trailing">
+    <div [class.hide]="!isLoading">
+      <fo-load-indicator></fo-load-indicator>
+    </div>
+    <div class="settings-container">
+      <button (click)="showModal">
+        <fo-icon icon="settings" [material]="true"></fo-icon>
+      </button>
+    </div>
+    <div class="button-container" [class.busy]="isLoading">
+      <button (click)="transform" #button>
+        <span>Transform</span>
+        <fo-icon icon="play_arrow" [material]="true"></fo-icon>
+      </button>
+    </div>
+  </div>
+</header>
+<div id="explorer" class="row">
+  <div id="editor" class="m6 col">
+    <editor
+      [readOnly]="false"
+      [text]="editorText"
+      (textChange)="updateText($event)"
+    ></editor>
+  </div>
+  <div id="output" class="m6 col">
+    <div *ngIf="errorText != null">
+      <span class="error" [innerText]="errorText"></span>
+    </div>
+    <editor *ngIf="errorText == null" [readOnly]="true" [(text)]="outputText" #output></editor>
+  </div>
+</div>
+
+<fo-modal [(visible)]="isModalShown" header="Settings">
+  <h4>Default Auth Mode</h4>
+  <fo-radio-group [value]="defaultAuthMode" (valueChange)="updateDefaultMode">
+    <fo-radio *ngFor="let mode of AppSyncAuthMode.values" [label]="mode.name" [value]="mode" [checked]="defaultAuthMode == mode"></fo-radio>
+  </fo-radio-group>
+  <hr>
+  <h4>Additional Auth Modes</h4>
+  <fo-check *ngFor="let mode of AppSyncAuthMode.values" [checked]="additionalAuthModes.contains(mode)" (checkedChange)="updateAdditionalAuthMode(mode, $event)" [label]="mode.name" [disabled]="defaultAuthMode == mode"></fo-check>
+</fo-modal>

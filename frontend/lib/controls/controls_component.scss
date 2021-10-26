@@ -1,0 +1,12 @@
+:host {
+  padding: 10px;
+}
+
+fo-radio-group {
+  display: flex;
+  flex-direction: column;
+
+  fo-radio {
+    padding: 5px;
+  }
+}

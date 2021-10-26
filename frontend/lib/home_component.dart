@@ -1,0 +1,262 @@
+import 'dart:async';
+import 'dart:collection';
+import 'dart:convert';
+import 'dart:html';
+
+import 'package:angular/angular.dart';
+import 'package:appsync_explorer/controls/controls_component.dart';
+import 'package:appsync_explorer/editor/editor_component.dart';
+import 'package:appsync_explorer/service/transform_service.dart';
+import 'package:appsync_explorer/model/transform_request.g.dart';
+import 'package:fo_components/fo_components.dart';
+import 'package:http/http.dart' as http;
+
+import 'model/config.dart';
+
+@Component(
+  selector: 'home',
+  templateUrl: 'home_component.html',
+  styleUrls: [
+    'home_component.css',
+  ],
+  directives: [
+    coreDirectives,
+    EditorComponent,
+    FoIconComponent,
+    FoModalComponent,
+    FoCheckComponent,
+    FoRadioComponent,
+    FoRadioGroupComponent,
+    ControlsComponent,
+    FoDropdownSelectComponent,
+    FoLoadIndicatorComponent,
+  ],
+  exports: [
+    AppSyncAuthMode,
+  ],
+)
+class HomeComponent implements AfterContentInit {
+  final TransformService transformService;
+  final ChangeDetectorRef _changeDetectorRef;
+
+  String outputText = '';
+  String? errorText;
+  bool isModalShown = false;
+
+  @ViewChild('button')
+  ButtonElement? buttonElement;
+
+  bool isLoading = false;
+
+  late String? selectedDropdownOption = null;
+  final Map<String, List<FoDropdownOption>> dropdownOptions = {
+    '': [
+      FoDropdownOption('todo', 'Todo', icon: 'checklist'),
+      FoDropdownOption('blog', 'Blog', icon: 'rss_feed'),
+      FoDropdownOption('habitr', 'Habitr', icon: 'groups'),
+    ]
+  };
+
+  static const _schemas = {
+    'todo': defaultSchema,
+    'blog': blogSchema,
+  };
+
+  void onSelectSchema(String schemaId) {
+    switch (schemaId) {
+      case 'habitr':
+        _downloadHabitrSchema();
+        return;
+      default:
+        updateText(_schemas[schemaId]!);
+    }
+  }
+
+  Future<void> _downloadHabitrSchema() async {
+    setBusy(true);
+    try {
+      final resp = await http.get(habitrUrl);
+      if (resp.statusCode == 200) {
+        updateText(resp.body);
+        return;
+      }
+      throw Exception('${resp.statusCode}: ${resp.body}');
+    } on Exception catch (e) {
+      window.console.error('Could not download Habitr schema: $e');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  HomeComponent(this.transformService, this._changeDetectorRef) {
+    var config = _loadFromHash() ?? _loadFromStorage();
+    if (config == null) {
+      config = ExplorerConfig();
+      selectedDropdownOption = 'todo';
+    }
+    _config = config;
+  }
+
+  ExplorerConfig? _loadFromHash() {
+    if (window.location.hash.isEmpty) {
+      return null;
+    }
+
+    try {
+      // Chop off leading '#' character
+      var hash = window.location.hash.substring(1);
+      var json = jsonDecode(utf8.decode(base64Url.decode(hash))) as Object;
+      return ExplorerConfig.fromJson(json) ??
+          (throw FormatException('Could not decode JSON: $json'));
+    } catch (e) {
+      window.console.error('Error decoding hash: $e');
+      return null;
+    }
+  }
+
+  ExplorerConfig? _loadFromStorage() {
+    try {
+      var config = ExplorerConfigBuilder();
+      var schema = window.localStorage['schema'];
+      if (schema != null) {
+        config.schema = schema;
+      }
+      var defaultAuthModeStr = window.localStorage['defaultAuthMode'];
+      if (defaultAuthModeStr != null) {
+        config.defaultAuthMode = AppSyncAuthMode.values.firstWhere(
+          (mode) => mode.name == defaultAuthModeStr,
+        );
+      }
+      var additionalAuthModesStr = window.localStorage['additionalAuthModes'];
+      if (additionalAuthModesStr != null) {
+        var additionalAuthModesList =
+            (jsonDecode(additionalAuthModesStr) as List).cast<String>();
+        var additionalAuthModes = additionalAuthModesList.map((value) =>
+            AppSyncAuthMode.values.firstWhere((mode) => mode.name == value));
+        config.additionalAuthModes.addAll(additionalAuthModes);
+      }
+      return config.build();
+    } catch (e) {
+      window.console.error('Error decoding localStorage: $e');
+      return null;
+    }
+  }
+
+  late ExplorerConfig _config;
+
+  String get editorText => _config.schema;
+  AppSyncAuthMode get defaultAuthMode => _config.defaultAuthMode;
+  Set<AppSyncAuthMode> get additionalAuthModes =>
+      UnmodifiableSetView(_config.additionalAuthModes.toSet());
+  String get _encodedAdditionalAuthModes =>
+      jsonEncode(additionalAuthModes.map((val) => val.name).toList());
+
+  Future<void> transform() async {
+    if (isLoading) {
+      return;
+    }
+    setBusy(true);
+    try {
+      final response = await transformService.transform(
+        TransformRequest(
+          schema: editorText,
+          authOptions: AuthOptions(
+            authConfig: AuthConfig(
+              defaultAuthentication: DefaultAuthentication(
+                authenticationType: defaultAuthMode,
+                openIdConnectConfig: DefaultAuthenticationOpenIdConnectConfig(),
+                userPoolConfig: DefaultAuthenticationUserPoolConfig(),
+              ),
+              additionalAuthenticationProviders: [
+                for (var additionalProvider in additionalAuthModes.where(
+                  (mode) => mode != defaultAuthMode,
+                ))
+                  AdditionalAuthenticationProvider(
+                    authenticationType: additionalProvider,
+                    openIdConnectConfig: additionalProvider ==
+                            AppSyncAuthMode.OPENID_CONNECT
+                        ? AdditionalAuthenticationProviderOpenIdConnectConfig()
+                        : null,
+                    userPoolConfig: additionalProvider ==
+                            AppSyncAuthMode.AMAZON_COGNITO_USER_POOLS
+                        ? AdditionalAuthenticationProviderUserPoolConfig()
+                        : null,
+                  )
+              ],
+            ),
+          ),
+          modelOptions: DynamoDbModelTransformerOptions(
+            enableDeletionProtection: false,
+            syncConfig: SyncConfig(
+              conflictDetection: ConflictDetectionType.VERSION,
+              conflictHandler: ConflictHandler.AUTOMERGE,
+            ),
+          ),
+        ),
+      );
+      outputText = response.schema?.trim() ?? '';
+      errorText = null;
+    } on TransformException catch (e) {
+      window.console.error(e);
+      errorText = e.message;
+    } on Exception catch (e) {
+      window.console.error(e);
+      errorText = 'An unknown error occurred. Please try again.';
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  void setBusy(bool busy) {
+    isLoading = busy;
+  }
+
+  @override
+  void ngAfterContentInit() {
+    updateText(editorText);
+  }
+
+  void updateText(String text) {
+    _config = _config.rebuild((b) => b.schema = text);
+    window.location.hash =
+        base64UrlEncode(jsonEncode(_config.toJson()).codeUnits);
+    _changeDetectorRef.markForCheck();
+  }
+
+  void updateDefaultMode(AppSyncAuthMode mode) {
+    _config = _config.rebuild((b) {
+      b.defaultAuthMode = mode;
+      b.additionalAuthModes.remove(mode);
+    });
+    window.localStorage['defaultAuthMode'] = mode.name;
+    window.localStorage['additionalAuthModes'] = _encodedAdditionalAuthModes;
+    _changeDetectorRef.markForCheck();
+  }
+
+  void updateAdditionalAuthMode(AppSyncAuthMode mode, bool checked) {
+    _config = _config.rebuild((b) {
+      if (checked) {
+        b.additionalAuthModes.add(mode);
+      } else {
+        b.additionalAuthModes.remove(mode);
+      }
+    });
+    window.localStorage['additionalAuthModes'] = _encodedAdditionalAuthModes;
+    _changeDetectorRef.markForCheck();
+  }
+
+  void showModal() {
+    isModalShown = true;
+  }
+}
+
+const blogSchema = '''
+Blog
+''';
+
+const habitrSchema = '''
+Habitr
+''';
+
+final habitrUrl = Uri.parse(
+    'https://raw.githubusercontent.com/dnys1/habitr/master/amplify/backend/api/habitr/schema.graphql');

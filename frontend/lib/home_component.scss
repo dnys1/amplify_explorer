@@ -1,0 +1,188 @@
+@import "package:grid_css/grid";
+@import "package:grid_css/mixins";
+@import "package:fo_components/mixins";
+@import "constants";
+
+@include thresholds($medium-width-threshold, $large-width-threshold);
+@include fo-colors($amplify-orange, #008898, #f77);
+@include fo-load-indicator-colors(white, $amplify-orange);
+
+@mixin height-full($padding) {
+  height: calc(100vh - $padding);
+  @media (max-width: $medium-width-threshold) {
+    height: calc((100vh - $padding) / 2);
+  }
+}
+
+.header {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  background-color: $amplify-orange;
+  color: white;
+
+  @media (max-width: 400px) {
+    h2 {
+      font-size: 1rem;
+    }
+  }
+
+  button {
+    cursor: pointer;
+    background: none;
+    color: white;
+  }
+
+  .button-container {
+    cursor: pointer;
+    color: white;
+
+    button {
+      height: 25px;
+      border: none;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .busy {
+    cursor: not-allowed;
+    color: #eee;
+  }
+
+  .settings-container {
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: 35px;
+      height: 35px;
+      border: 1px solid white;
+      border-radius: 5px;
+      margin-right: 10px;
+      padding: 0;
+
+      &:active {
+        background-color: mix(white, $amplify-orange, $weight: 30%);
+      }
+    }
+  }
+
+  .leading,
+  .trailing {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
+::ng-deep .material-icons {
+  font-size: 1.5em !important;
+}
+
+::ng-deep #output {
+  background-color: #fafafa;
+
+  .editor {
+    background-color: #fafafa;
+  }
+}
+
+#explorer {
+  .col {
+    display: flex;
+    flex-direction: column;
+    @include height-full(60px);
+  }
+}
+
+::ng-deep fo-load-indicator {
+  .spinner {
+    width: 2em !important;
+    height: 2em !important;
+    margin-right: 15px;
+  
+    .circleBorder {
+      width: 1em !important;
+      height: 1em !important;
+    }
+  }
+}
+
+.height-100 {
+  height: 100%;
+}
+
+.height-50 {
+  height: 50%;
+}
+
+#output {
+  background-color: #fafafa;
+}
+
+pre {
+  margin: 0;
+}
+
+.busy {
+  cursor: not-allowed;
+}
+
+.hide {
+  display: none;
+}
+
+.error {
+  color: red;
+  padding: 8px;
+}
+
+fo-radio-group {
+  flex-direction: column;
+}
+
+fo-radio,
+fo-check {
+  margin: 4px 0;
+}
+
+::ng-deep #modalMain {
+  padding: 0 15px 15px 15px !important;
+}
+
+h4 {
+  margin: 20px 0 10px 0;
+}
+
+::ng-deep .CodeMirror {
+  font-size: 0.9rem !important;
+}
+
+::ng-deep fo-dropdown-select {
+  @include fo-label-color(white);
+
+  min-width: 200px;
+  margin-left: 20px;
+
+  fo-label #label {
+    font-size: 0.75em !important;
+  }
+
+  #flexContainer {
+    margin-top: 3px;
+  }
+  
+  #selector {
+    #selectedValue {
+      padding: 0.25em !important;
+    }
+
+    fo-icon {
+      font-size: 1em !important;
+    }
+  }
+}

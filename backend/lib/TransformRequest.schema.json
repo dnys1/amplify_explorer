@@ -1,0 +1,224 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "AppSyncAuthMode": {
+            "enum": [
+                "AMAZON_COGNITO_USER_POOLS",
+                "API_KEY",
+                "AWS_IAM",
+                "OPENID_CONNECT"
+            ],
+            "type": "string"
+        },
+        "ConflictDetectionType": {
+            "enum": [
+                "NONE",
+                "VERSION"
+            ],
+            "type": "string"
+        },
+        "DynamoDBModelTransformerOptions": {
+            "additionalProperties": false,
+            "properties": {
+                "EnableDeletionProtection": {
+                    "type": "boolean"
+                },
+                "SyncConfig": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "ConflictDetection": {
+                                    "$ref": "#/definitions/ConflictDetectionType"
+                                },
+                                "ConflictHandler": {
+                                    "enum": [
+                                        "OPTIMISTIC_CONCURRENCY"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "ConflictDetection": {
+                                    "$ref": "#/definitions/ConflictDetectionType"
+                                },
+                                "ConflictHandler": {
+                                    "enum": [
+                                        "AUTOMERGE"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "ConflictDetection": {
+                                    "$ref": "#/definitions/ConflictDetectionType"
+                                },
+                                "ConflictHandler": {
+                                    "enum": [
+                                        "LAMBDA"
+                                    ],
+                                    "type": "string"
+                                },
+                                "LambdaConflictHandler": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "lambdaArn": {
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "region": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "authOptions": {
+            "additionalProperties": false,
+            "properties": {
+                "addAwsIamAuthInOutputSchema": {
+                    "type": "boolean"
+                },
+                "authConfig": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "additionalAuthenticationProviders": {
+                            "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "apiKeyConfig": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "apiKeyExpirationDays": {
+                                                "type": "number"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "authenticationType": {
+                                        "$ref": "#/definitions/AppSyncAuthMode"
+                                    },
+                                    "openIDConnectConfig": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "authTTL": {
+                                                "type": "number"
+                                            },
+                                            "clientId": {
+                                                "type": "string"
+                                            },
+                                            "iatTTL": {
+                                                "type": "number"
+                                            },
+                                            "issuerUrl": {
+                                                "type": "string"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "userPoolConfig": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "userPoolId": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "type": "array"
+                        },
+                        "defaultAuthentication": {
+                            "additionalProperties": false,
+                            "properties": {
+                                "apiKeyConfig": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "apiKeyExpirationDays": {
+                                            "type": "number"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "authenticationType": {
+                                    "$ref": "#/definitions/AppSyncAuthMode"
+                                },
+                                "openIDConnectConfig": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "authTTL": {
+                                            "type": "number"
+                                        },
+                                        "clientId": {
+                                            "type": "string"
+                                        },
+                                        "iatTTL": {
+                                            "type": "number"
+                                        },
+                                        "issuerUrl": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "userPoolConfig": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "userPoolId": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "modelOptions": {
+            "$ref": "#/definitions/DynamoDBModelTransformerOptions"
+        },
+        "schema": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
+

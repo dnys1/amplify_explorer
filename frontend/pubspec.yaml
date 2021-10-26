@@ -1,0 +1,43 @@
+name: appsync_explorer
+description: An absolute bare-bones web app.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  angular: ^7.0.0
+  # angular_components:
+  #   git:
+  #     url: https://github.com/angulardart-community/angular_components
+  #     path: angular_components
+  #     ref: dev
+  fo_components: ^3.1.0
+  ngsecurity:
+    git:
+      url: https://github.com/angulardart-community/ngsecurity
+  # angular_bloc: ^7.0.0
+  # angular_forms:
+  #   path: ../../angular/angular_forms
+  # angular_router:
+  #   path: ../../angular/angular_router
+  grid_css: ^3.0.0
+  codemirror: ^0.6.0
+  uuid: ^3.0.5
+  built_value: ^8.1.2
+  built_collection: ^5.1.1
+  http: ^0.13.4
+  stream_transform: ^2.0.0
+
+# dependency_overrides:
+#   angular:
+#     path: ../../angular/angular
+
+dev_dependencies:
+  amplify_lints: ^1.0.0
+  # angular_test: ^4.0.0
+  build_runner: ^2.0.0
+  build_web_compilers: ^3.2.1
+  built_value_generator: ^8.1.2
+  sass_builder: ^2.1.4

@@ -1,0 +1,39 @@
+{
+  "name": "third_party",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js && cp build/bundle.js ../web/js/codemirror-graphql.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "codemirror-graphql": "^1.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@types/browserify": "^12.0.37",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "browserify-shim": "^3.8.14"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "browserify-shim",
+        {
+          "global": true
+        }
+      ]
+    ]
+  },
+  "browserify-shim": {
+    "codemirror": "global:CodeMirror"
+  },
+  "peerDependencies": {
+    "codemirror": "^5.63.1"
+  }
+}

@@ -1,0 +1,458 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "ConditionIntrinsicFunction": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                },
+                "payload": {
+                }
+            },
+            "type": "object"
+        },
+        "CreationPolicy": {
+            "additionalProperties": false,
+            "properties": {
+                "AutoScalingCreationPolicy": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "MinSuccessfulInstancesPercent": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "number"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "ResourceSignal": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "Count": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "number"
+                                }
+                            ]
+                        },
+                        "Timeout": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "DeletionPolicy": {
+            "enum": [
+                "Delete",
+                "Retain",
+                "Snapshot"
+            ],
+            "type": "string"
+        },
+        "IntrinsicFunction": {
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                },
+                "payload": {
+                }
+            },
+            "type": "object"
+        },
+        "StackMapping": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object"
+        },
+        "UpdatePolicy": {
+            "additionalProperties": false,
+            "properties": {
+                "AutoScalingReplacingUpdate": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "WillReplace": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "AutoScalingRollingUpdate": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "MaxBatchSize": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "number"
+                                }
+                            ]
+                        },
+                        "MinInstancesInService": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "number"
+                                }
+                            ]
+                        },
+                        "MinSuccessfulInstancesPercent": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "number"
+                                }
+                            ]
+                        },
+                        "PauseTime": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "SuspendProcesses": {
+                            "anyOf": [
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                }
+                            ]
+                        },
+                        "WaitOnResourceSignals": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "AutoScalingScheduledAction": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "IgnoreUnmodifiedGroupSizeProperties": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "boolean"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "default": {
+            "additionalProperties": false,
+            "properties": {
+                "AWSTemplateFormatVersion": {
+                    "type": "string"
+                },
+                "Conditions": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/ConditionIntrinsicFunction"
+                            },
+                            {
+                                "additionalProperties": false,
+                                "properties": {
+                                    "Condition": {
+                                        "anyOf": [
+                                            {
+                                                "$ref": "#/definitions/IntrinsicFunction"
+                                            },
+                                            {
+                                                "type": "string"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "type": "object"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "Mappings": {
+                    "additionalProperties": {
+                        "additionalProperties": {
+                            "additionalProperties": {
+                                "anyOf": [
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    },
+                                    {
+                                        "type": [
+                                            "string",
+                                            "number"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "object"
+                        },
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "Metadata": {
+                    "additionalProperties": {
+                    },
+                    "type": "object"
+                },
+                "Outputs": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/default_3"
+                    },
+                    "type": "object"
+                },
+                "Parameters": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/default_1"
+                    },
+                    "type": "object"
+                },
+                "Resources": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/default_2"
+                    },
+                    "type": "object"
+                },
+                "Transform": {
+                }
+            },
+            "type": "object"
+        },
+        "default_1": {
+            "additionalProperties": false,
+            "properties": {
+                "AllowedPattern": {
+                    "type": "string"
+                },
+                "AllowedValues": {
+                    "items": {
+                    },
+                    "type": "array"
+                },
+                "ConstraintDescription": {
+                    "type": "string"
+                },
+                "Default": {
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "MaxLength": {
+                    "type": "number"
+                },
+                "MaxValue": {
+                    "type": "number"
+                },
+                "MinLength": {
+                    "type": "number"
+                },
+                "MinValue": {
+                    "type": "number"
+                },
+                "NoEcho": {
+                    "type": "boolean"
+                },
+                "Type": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "default_2": {
+            "additionalProperties": false,
+            "properties": {
+                "Condition": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/IntrinsicFunction"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "CreationPolicy": {
+                    "$ref": "#/definitions/CreationPolicy"
+                },
+                "DeletionPolicy": {
+                    "$ref": "#/definitions/DeletionPolicy"
+                },
+                "DependsOn": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "$ref": "#/definitions/IntrinsicFunction"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "Metadata": {
+                    "additionalProperties": {
+                    },
+                    "type": "object"
+                },
+                "Properties": {
+                    "additionalProperties": {
+                    },
+                    "type": "object"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "UpdatePolicy": {
+                    "$ref": "#/definitions/UpdatePolicy"
+                }
+            },
+            "type": "object"
+        },
+        "default_3": {
+            "additionalProperties": false,
+            "properties": {
+                "Condition": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/IntrinsicFunction"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "Description": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/IntrinsicFunction"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "Export": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "Name": {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/IntrinsicFunction"
+                                },
+                                {
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "Value": {
+                }
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "functions": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object"
+        },
+        "pipelineFunctions": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object"
+        },
+        "resolvers": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object"
+        },
+        "rootStack": {
+            "$ref": "#/definitions/default"
+        },
+        "schema": {
+            "type": "string"
+        },
+        "stackMapping": {
+            "$ref": "#/definitions/StackMapping"
+        },
+        "stacks": {
+            "additionalProperties": {
+                "$ref": "#/definitions/default"
+            },
+            "type": "object"
+        }
+    },
+    "type": "object"
+}
+

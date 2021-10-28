@@ -1,7 +1,16 @@
+<template #dropdown>
+  <fo-dropdown-select
+    [label]="showHeaderDropdown ? 'Choose a schema' : null" 
+    [options]="dropdownOptions" 
+    [selectedId]="selectedDropdownOption" 
+    (selectedIdChange)="onSelectSchema($event)">
+  </fo-dropdown-select>
+</template>
+
 <header class="header row">
   <div class="leading">
     <h2>AppSync Explorer</h2>
-    <fo-dropdown-select label="Choose a schema" [options]="dropdownOptions" [selectedId]="selectedDropdownOption" (selectedIdChange)="onSelectSchema($event)"></fo-dropdown-select>
+    <div *ngIf="showHeaderDropdown" [ngTemplateOutlet]="dropdown"></div>
   </div>
   <div class="trailing">
     <div [class.hide]="!isLoading">
@@ -37,6 +46,10 @@
 </div>
 
 <fo-modal [(visible)]="isModalShown" header="Settings">
+  <div *ngIf="!showHeaderDropdown">
+    <h4>Choose a schema</h4>
+    <div [ngTemplateOutlet]="dropdown"></div>
+  </div>
   <h4>Default Auth Mode</h4>
   <fo-radio-group [value]="defaultAuthMode" (valueChange)="updateDefaultMode">
     <fo-radio *ngFor="let mode of AppSyncAuthMode.values" [label]="mode.name" [value]="mode" [checked]="defaultAuthMode == mode"></fo-radio>

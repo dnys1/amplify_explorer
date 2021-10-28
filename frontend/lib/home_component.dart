@@ -35,7 +35,7 @@ import 'model/config.dart';
     AppSyncAuthMode,
   ],
 )
-class HomeComponent implements AfterContentInit {
+class HomeComponent implements OnInit, AfterContentInit {
   final TransformService transformService;
   final ChangeDetectorRef _changeDetectorRef;
 
@@ -46,9 +46,15 @@ class HomeComponent implements AfterContentInit {
   @ViewChild('button')
   ButtonElement? buttonElement;
 
+  @ViewChild('dropdown')
+  TemplateRef? dropdownTemplate;
+
+  int? innerWidth;
+  bool get showHeaderDropdown => innerWidth != null && innerWidth! >= 600;
+
   bool isLoading = false;
 
-  late String? selectedDropdownOption = null;
+  String? selectedDropdownOption;
   final Map<String, List<FoDropdownOption>> dropdownOptions = {
     '': [
       FoDropdownOption('todo', 'Todo', icon: 'checklist'),
@@ -78,23 +84,33 @@ class HomeComponent implements AfterContentInit {
       final resp = await http.get(habitrUrl);
       if (resp.statusCode == 200) {
         updateText(resp.body);
+        errorText = null;
         return;
       }
       throw Exception('${resp.statusCode}: ${resp.body}');
     } on Exception catch (e) {
-      window.console.error('Could not download Habitr schema: $e');
+      errorText = 'Could not download Habitr schema: $e';
+      window.console.error(e);
     } finally {
       setBusy(false);
     }
   }
 
   HomeComponent(this.transformService, this._changeDetectorRef) {
-    var config = _loadFromHash() ?? _loadFromStorage();
-    if (config == null) {
-      config = ExplorerConfig();
+    _config = _loadFromHash() ?? _loadFromStorage() ?? ExplorerConfig();
+    if (_config.schema == defaultSchema) {
       selectedDropdownOption = 'todo';
+    } else if (_config.schema == blogSchema) {
+      selectedDropdownOption = 'blog';
     }
-    _config = config;
+  }
+
+  @override
+  void ngOnInit() {
+    innerWidth = window.innerWidth;
+    window.onResize.listen((event) {
+      innerWidth = window.innerWidth;
+    });
   }
 
   ExplorerConfig? _loadFromHash() {
@@ -251,12 +267,26 @@ class HomeComponent implements AfterContentInit {
 }
 
 const blogSchema = '''
-Blog
-''';
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(keyName: "byBlog", fields: ["id"])
+}
 
-const habitrSchema = '''
-Habitr
-''';
+type Post @model @key(name: "byBlog", fields: ["blogID"]) {
+  id: ID!
+  title: String!
+  blogID: ID!
+  blog: Blog @connection(fields: ["blogID"])
+  comments: [Comment] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
+  id: ID!
+  postID: ID!
+  post: Post @connection(fields: ["postID"])
+  content: String!
+}''';
 
 final habitrUrl = Uri.parse(
     'https://raw.githubusercontent.com/dnys1/habitr/master/amplify/backend/api/habitr/schema.graphql');

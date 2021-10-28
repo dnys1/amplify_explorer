@@ -23,6 +23,12 @@
   background-color: $amplify-orange;
   color: white;
 
+  @media (max-width: 600px) {
+    h2 {
+      font-size: 1.25rem;
+    }
+  }
+
   @media (max-width: 400px) {
     h2 {
       font-size: 1rem;
@@ -77,6 +83,12 @@
     align-items: center;
     flex-direction: row;
   }
+
+  .leading {
+    h2 {
+      margin-right: 20px;
+    }
+  }
 }
 
 ::ng-deep .material-icons {
@@ -96,6 +108,14 @@
     display: flex;
     flex-direction: column;
     @include height-full(60px);
+  }
+}
+
+::ng-deep fo-modal {
+  fo-label #label {
+    @media (max-width: 500px) {
+      font-size: 0.8em !important;
+    }
   }
 }
 
@@ -165,8 +185,7 @@ h4 {
 ::ng-deep fo-dropdown-select {
   @include fo-label-color(white);
 
-  min-width: 200px;
-  margin-left: 20px;
+  min-width: 150px;
 
   fo-label #label {
     font-size: 0.75em !important;

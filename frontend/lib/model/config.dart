@@ -14,7 +14,7 @@ abstract class ExplorerConfig
   static void _setDefaults(ExplorerConfigBuilder b) => b
     ..schema = defaultSchema
     ..defaultAuthMode = AppSyncAuthMode.API_KEY
-    ..additionalAuthModes.clear();
+    ..additionalAuthModes.add(AppSyncAuthMode.AMAZON_COGNITO_USER_POOLS);
 
   ExplorerConfig._();
 

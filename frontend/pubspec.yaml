@@ -1,4 +1,4 @@
-name: appsync_explorer
+name: amplify_explorer
 description: An absolute bare-bones web app.
 version: 1.0.0
 publish_to: none

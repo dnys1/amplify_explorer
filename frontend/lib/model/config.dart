@@ -1,4 +1,4 @@
-import 'package:appsync_explorer/editor/editor_component.dart';
+import 'package:amplify_explorer/editor/editor_component.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';

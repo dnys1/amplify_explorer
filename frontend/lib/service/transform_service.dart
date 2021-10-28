@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:appsync_explorer/model/transform_request.g.dart';
-import 'package:appsync_explorer/model/transform_response.g.dart';
-import 'package:appsync_explorer/model/velocity_template_request.g.dart';
-import 'package:appsync_explorer/model/velocity_template_response.g.dart';
+import 'package:amplify_explorer/model/transform_request.g.dart';
+import 'package:amplify_explorer/model/transform_response.g.dart';
+import 'package:amplify_explorer/model/velocity_template_request.g.dart';
+import 'package:amplify_explorer/model/velocity_template_response.g.dart';
 import 'package:http/http.dart' as http;
 
 class TransformException implements Exception {

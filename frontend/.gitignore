@@ -6,5 +6,5 @@
 build/
 
 # Generated outputs
-*.g.dart
+lib/**/*.g.dart
 web/js/codemirror-graphql.js

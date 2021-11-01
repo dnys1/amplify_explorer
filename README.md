@@ -7,7 +7,7 @@ Live: https://dillonnys.com/explorer/
 ## Setup
 
 ```sh
-pushd frontend/codemirror-graphql/third_party
+pushd frontend/third_party/codemirror-graphql
 npm install
 npm run build
 popd

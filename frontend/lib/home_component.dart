@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:angular/angular.dart';
-import 'package:amplify_explorer/controls/controls_component.dart';
 import 'package:amplify_explorer/editor/editor_component.dart';
 import 'package:amplify_explorer/service/transform_service.dart';
 import 'package:amplify_explorer/model/transform_request.g.dart';
@@ -27,7 +26,6 @@ import 'model/config.dart';
     FoCheckComponent,
     FoRadioComponent,
     FoRadioGroupComponent,
-    ControlsComponent,
     FoDropdownSelectComponent,
     FoLoadIndicatorComponent,
   ],

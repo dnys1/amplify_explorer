@@ -1,0 +1,9 @@
+<fo-question [index]="activeIndex"
+             [model]="activeQuestion"
+             [disabled]="disabled"
+             [buttonColor]="buttonColor"
+             [prevButtonLabel]="prevButtonLabel"
+             [nextButtonLabel]="nextButtonLabel"
+             (prev)="onQuestionPrev($event)"
+             (done)="onQuestionDone($event)">
+</fo-question>

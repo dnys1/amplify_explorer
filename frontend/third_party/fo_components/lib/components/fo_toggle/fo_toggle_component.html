@@ -1,0 +1,9 @@
+<div class="slider"
+     tabindex="0"
+     [class.disabled]="disabled"
+     [class.checked]="checked"
+     (click)="onChange()">
+    <div class="marker"></div>
+</div>
+<fo-label [value]="label"
+          (click)="onChange()"></fo-label>

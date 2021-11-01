@@ -1,0 +1,18 @@
+@mixin fo-radio-colors($higlight, $border) {
+    ::ng-deep fo-radio {
+        div#radioContainer {
+            border-color: $border !important;
+
+            div.marker {
+                background-color: $higlight !important;
+            }
+        }
+        div#radioContainer.disabled {
+            border-color: $border !important;
+            background-color: darken(white, 5%) !important;
+            div.marker {
+                background-color: darken(white, 25%) !important;
+            }
+        }
+    }
+}

@@ -7,11 +7,12 @@ Live: https://dillonnys.com/explorer/
 ## Setup
 
 ```sh
-cd frontend/third_party
+pushd frontend/codemirror-graphql/third_party
 npm install
 npm run build
+popd
 
-cd ..
+cd frontend
 dart pub global activate webdev
 dart pub get
 webdev serve

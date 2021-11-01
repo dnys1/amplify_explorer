@@ -1,0 +1,23 @@
+@mixin fo-image-file-colors($borderColor, $addIconColor, $placeholderColor) {
+  ::ng-deep fo-image-file {
+    div.container {
+      border-color: $borderColor;
+
+      p#placeholder {
+        color: $placeholderColor;
+      }
+
+      fo-icon.add {
+        color: $addIconColor;
+      }
+    }
+  }
+}
+
+@mixin fo-image-file-height($height) {
+  ::ng-deep fo-image-file {
+    div.container {
+      height: $height !important;
+    }
+  }
+}

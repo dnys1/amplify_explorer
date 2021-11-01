@@ -1,0 +1,23 @@
+@mixin fo-toggle-color($higlight) {
+    ::ng-deep fo-toggle {
+        div.slider {
+            background-color: darken(white, 10%);
+            div.marker {
+                background-color: white;
+            }
+        }
+
+        div.slider.checked {
+            background-color: $higlight;
+        }
+
+        div.slider.disabled {
+            div.marker {
+                background-color: darken(white, 10%) !important;
+            }
+        }
+        div.slider.disabled.checked {
+            background-color: darken(white, 20%) !important;
+        }
+    }
+}

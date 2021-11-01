@@ -1,0 +1,16 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  exclude: [build/**, lib/models/*.g.dart]
+  language:
+    strict-raw-types: true
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+  errors:
+    uri_has_not_been_generated: ignore
+
+linter:
+  rules:
+    - cancel_subscriptions
+#    - public_member_api_docs

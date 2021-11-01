@@ -1,0 +1,71 @@
+:host {
+  cursor: pointer;
+  display: block;
+  padding: 0.25em 0;
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    padding: 0 0.5em;
+
+    tr {
+      td {
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        div#label.semi-bold {
+          font-weight: 600;
+        }
+
+        div#secondaryLabel {
+          font-size: 0.85em;
+          margin-top: 0.3em;
+        }
+      }
+
+      td.icon {
+        text-align: center;
+        width: 1.2em;
+        fo-icon {
+          font-size: 1em;
+        }
+      }
+
+      td#image {
+        width: 70px;
+
+        img {
+          display: block;
+          margin: 0;
+          max-width: 60px;
+          max-height: 60px;
+          border: 1px solid #dde2e9;
+          box-sizing: border-box;
+        }
+      }
+
+      td.info {
+        font-size: 0.85em;
+        color: #59616d;
+        text-align: right;
+        margin-right: 0.5em;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+/*:host:hover {
+  table {
+    tr {
+      td,
+      td > div,
+      td > div#label,
+      td.leadingIcon > fo-icon {
+        color: white;
+      }
+    }
+  }
+}
+*/

@@ -1,0 +1,16 @@
+@import "mixins";
+
+$borderRadius: 0.25rem;
+
+@mixin inputStyle {
+  background-color: transparent;
+  transition: color $transitionSpeed, box-shadow $transitionSpeed, -webkit-box-shadow $transitionSpeed;
+  flex: auto;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  min-width: 2em;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  font-size: 1em;
+}

@@ -1,0 +1,32 @@
+@import "package:fo_components/components/fo_text_input/mixins";
+@import "package:fo_components/components/fo_button/mixins";
+
+@mixin fo-number-input-vertical-padding($value) {
+  ::ng-deep fo-number-input {
+    div#flexContainer {
+      @include fo-button-vertical-padding($value);
+      @include fo-text-input-vertical-padding($value, $value);
+    }
+  }
+}
+
+@mixin fo-number-input-button-width($value) {
+  ::ng-deep fo-number-input {
+    div#flexContainer.themeable {
+      div#leftButton,
+      div#rightButton {
+        width: $value;
+      }
+    }
+  }
+}
+
+@mixin fo-number-input-input-width($value) {
+  ::ng-deep fo-number-input {
+    div#flexContainer.themeable {
+      fo-text-input {
+        max-width: $value;
+      }
+    }
+  }
+}

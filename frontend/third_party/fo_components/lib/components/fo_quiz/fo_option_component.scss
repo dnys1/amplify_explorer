@@ -1,0 +1,16 @@
+:host {
+  display: block;
+  margin: 8px 0;
+  opacity: 0.7;
+  ::ng-deep fo-button {
+    button {
+      div#center {
+        height: 30px;
+        white-space: normal !important;
+      }
+    }
+  }
+}
+:host.selected {
+  opacity: 1;
+}

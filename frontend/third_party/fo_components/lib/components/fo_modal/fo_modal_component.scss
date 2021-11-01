@@ -1,0 +1,112 @@
+@import "package:fo_components/components/fo_button/mixins";
+@import "package:fo_components/mixins";
+
+:host {
+  .hidden {
+    display: none;
+  }
+
+  div#modalOverlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+
+    div#modalContent {
+      @include boxShadow();
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background-color: white;
+      max-height: 85vh;
+      max-width: 90vw;
+
+      div#modalHeader,
+      div#modalMain,
+      div#modalFooter {
+        padding: 0.5em;
+      }
+
+      div#modalHeader {
+        @include fo-button-vertical-padding(0.2em);
+        @include fo-button-horizontal-padding(0.4em);
+        display: flex;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        align-items: center;
+
+        div#modalHeaderTitle {
+          flex: auto;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          min-width: 10rem;
+
+          h2 {
+            font-size: 1em;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: bold;
+          }
+        }
+        fo-button {
+          font-size: 1em;
+          margin-left: 1.5em;
+        }
+      }
+
+      div#modalError {
+        border-style: solid;
+        border-top-width: 0;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-right-width: 1px;
+        padding: 0.5em;
+        font-size: 0.8em;
+        height: 100%;
+      }
+      div#modalError.hidden {
+        height: 0;
+        padding: 0;
+        border-left-width: 0;
+        border-right-width: 0;
+        border-bottom-width: 0;
+      }
+
+      div#modalMain {
+        font-size: 1rem;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        overflow-y: auto;
+        flex: auto;
+        -webkit-overflow-scrolling: touch; // Smooth scrolling on tablets/phones
+      }
+      div#modalFooter {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+:host[fullWidth] {
+  div#modalOverlay {
+    div#modalContent {
+      width: 90vw;
+    }
+  }
+}
+
+:host[fullHeight] {
+  div#modalOverlay {
+    div#modalContent {
+      height: 95vh;
+    }
+  }
+}

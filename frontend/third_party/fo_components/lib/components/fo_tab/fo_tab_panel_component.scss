@@ -1,0 +1,33 @@
+@import "../../mixins.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  div#tabStrip {
+    display: flex;
+    align-items: stretch;
+
+    p,
+    h1 {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    div.tabButton {
+      flex: 1;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 1em 0.5em;
+      @include boxShadow();
+      transition: color, background-color 300ms ease-in;
+      -webkit-transition: color, background-color 300ms ease-in;
+      -moz-transition: color, background-color 300ms ease-in;
+      -o-transition: color, background-color 300ms ease-in;
+    }
+  }
+}

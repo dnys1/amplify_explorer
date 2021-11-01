@@ -1,0 +1,31 @@
+<fo-label [value]="label"></fo-label>
+<div class="container"
+     [class.border]="source == null || source.isEmpty"
+     (dragenter)="$event.preventDefault()"
+     (dragover)="$event.preventDefault()"
+     (drop)="onDrop($event)"
+     (click)="fileInput.click()">
+     <div id="image"
+          [ngStyle]="styles"></div>
+     <fo-icon *ngIf="source != null && source.isNotEmpty"
+              icon="delete"
+              id="delete"
+              [material]="materialIcons"
+              (click)="onDelete($event)">
+     </fo-icon>
+     <div *ngIf="source == null || source.isEmpty">
+          <fo-icon class="add"
+                   [material]="materialIcons"
+                   [icon]="addIcon">
+          </fo-icon>
+          <p id="placeholder"
+             *ngIf="placeholder.isNotEmpty">{{placeholder}}</p>
+     </div>
+     <input type="file"
+            #fileInput
+            [disabled]="disabled"
+            (change)="onFileChange($event)"
+            [accept]="accept" />
+     <p *ngIf="invalidFile"
+        class="error-output background-color-alert-bright">{{msgInvalidFile}}</p>
+</div>

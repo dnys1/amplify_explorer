@@ -1,0 +1,33 @@
+<button [disabled]="disabled == true"
+        tabindex="0"
+        class="themeable background-color-primary"
+        [style.background-color]="themeBackgroundColor"
+        [style.border-color]="themeBackgroundColor"
+        [class.white]="white"
+        [class.noLeftBorder]="leftBorder != true"
+        [class.noRightBorder]="rightBorder != true"
+        [class.clearSize]="clearSize"
+        (click)="onClick()">
+  <div id="leading"
+       *ngIf="label != null && leadingIcon != null">
+    <fo-icon [icon]="leadingIcon"
+             [style.color]="themeColor"
+             [material]="materialIcon"></fo-icon>
+  </div>
+  <div id="center">
+    <div *ngIf="label != null"
+         [style.color]="themeColor">{{label}}</div>
+    <div *ngIf="label == null && icon != null">
+      <fo-icon [icon]="icon"
+               [style.color]="themeColor"
+               [material]="materialIcon">
+      </fo-icon>
+    </div>
+  </div>
+  <div id="trailing"
+       *ngIf="label != null && trailingIcon != null">
+    <fo-icon [icon]="trailingIcon"
+             [style.color]="themeColor"
+             [material]="materialIcon"></fo-icon>
+  </div>
+</button>

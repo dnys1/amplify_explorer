@@ -1,0 +1,7 @@
+@mixin fo-label-color($color) {
+  ::ng-deep fo-label {
+    div#label {
+      color: $color;
+    }
+  }
+}

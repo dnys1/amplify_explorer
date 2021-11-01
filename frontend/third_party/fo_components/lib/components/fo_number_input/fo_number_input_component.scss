@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  div#flexContainer {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+
+    fo-button {
+      height: 100%;
+    }
+
+    fo-text-input {
+      flex: 1;
+      box-sizing: border-box;
+    }
+
+    span#trailing {
+      margin-left: 1em;
+    }
+  }
+}

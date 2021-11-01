@@ -1,0 +1,74 @@
+@import "package:fo_components/components/fo_button/mixins";
+@import "package:fo_components/src/components/fo_dropdown_list/mixins";
+@import "../../mixins.scss";
+
+:host {
+  display: block;
+  position: relative;
+
+  @include fo-button-vertical-padding(0.5em);
+
+  div#flexContainer {
+    fo-button {
+      font-size: 1em;
+    }
+
+    cursor: pointer;
+    display: flex;
+    border-radius: 0.25rem;
+    border-width: 1px;
+    border-style: solid;
+    overflow: hidden;
+
+    div#selector {
+      background-color: white;
+      flex: 1;
+      display: flex;
+      align-items: center;
+
+      fo-icon.arrow {
+        font-size: 1.5em;
+        margin-right: 0.15em;
+        line-height: 1em;
+      }
+
+      div#selectedValue {
+        flex: 1;
+        line-height: 1.5em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0.5em;
+        user-select: none;
+        display: flex;
+        align-items: center;
+
+        fo-icon {
+          margin-right: 0.25em;
+        }
+      }
+    }
+
+    ::ng-deep fo-button > button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+
+:host[centerValue] {
+  div#flexContainer {
+    div#selector {
+      div#selectedValue {
+        text-align: center;
+      }
+
+      div#selectedValue::before {
+        content: "";
+        display: inline-block;
+        width: 1em;
+        margin: 0.5rem;
+      }
+    }
+  }
+}

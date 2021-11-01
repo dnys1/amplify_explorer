@@ -1,0 +1,54 @@
+@mixin fo-modal-colors($dividerColor, $alertColor) {
+  ::ng-deep fo-modal {
+    div#modalOverlay {
+      div#modalContent {
+        div#modalHeader,
+        div#modalError,
+        div#modalMain {
+          border-color: $dividerColor;
+        }
+
+        div#modalError {
+          background-color: lighten($dividerColor, 15%);
+          color: $alertColor;
+        }
+      }
+    }
+  }
+}
+
+@mixin fo-modal-padding($vertical, $horizontal) {
+  ::ng-deep fo-modal {
+    div#modalOverlay {
+      div#modalContent {
+        div#modalHeader,
+        div#modalFooter {
+          padding: $vertical 0 !important;
+        }
+        div#modalHeader {
+          div#modalHeaderTitle {
+            margin-left: $horizontal;
+          }
+          fo-button {
+            margin-right: $horizontal;
+          }
+        }
+        div#modalMain,
+        div#modalFooter {
+          padding-left: $horizontal !important;
+          padding-right: $horizontal !important;
+        }
+      }
+    }
+  }
+}
+
+@mixin fo-modal-width($width) {
+  ::ng-deep fo-modal {
+    div#modalOverlay {
+      div#modalContent {
+        width: $width;
+      }
+    }
+  }
+}

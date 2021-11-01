@@ -1,0 +1,24 @@
+@mixin fo-tab-panel-colors($color, $backgroundColor, $backgroundColorDisabled) {
+  ::ng-deep fo-tab-panel {
+    div#tabStrip {
+      div.tabButton {
+        color: $color;
+        background-color: $backgroundColor;
+      }
+      div.tabButton.disabled {
+        background-color: $backgroundColorDisabled;
+      }
+    }
+  }
+}
+
+@mixin fo-tab-panel-vertical-padding($top, $bottom) {
+  ::ng-deep fo-tab-panel {
+    div#tabStrip {
+      div.tabButton {
+        padding-top: $top !important;
+        padding-bottom: $bottom !important;
+      }
+    }
+  }
+}

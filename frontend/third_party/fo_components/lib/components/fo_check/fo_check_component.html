@@ -1,0 +1,10 @@
+<div id="checkContainer"
+     tabindex="0"
+     [class.disabled]="disabled"
+     (click)="onChange()">
+     <div class="marker"
+          [class.visible]="checked">
+     </div>
+</div>
+<fo-label [value]="label"
+          (click)="onChange()"></fo-label>

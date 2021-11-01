@@ -1,0 +1,39 @@
+@import "../../mixins";
+@import "shared";
+
+:host {
+  display: block;
+  position: relative;
+
+  fo-label {
+    font-size: 1em;
+  }
+
+  textarea {
+    vertical-align: bottom;
+    @include inputStyle;
+    background-color: #555;
+    padding: 0.5em 0.25em;
+    background-color: white;
+    border-style: solid;
+    border-radius: $borderRadius;
+    border-width: 1px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  textarea::-webkit-scrollbar {
+    display: none;
+  }
+  textarea.noResize {
+    resize: none;
+  }
+
+  textarea,
+  textarea:focus {
+    font-size: 1em;
+  }
+
+  textarea.elastic {
+    overflow: hidden;
+  }
+}

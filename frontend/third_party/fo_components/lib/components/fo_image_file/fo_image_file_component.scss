@@ -1,0 +1,74 @@
+@import "../../mixins.scss";
+
+:host {
+  div.container {
+    height: 58px;
+    cursor: pointer;
+    position: relative;
+    border-style: dashed;
+    border-width: 0;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    div#image {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    fo-icon#delete {
+      z-index: 2;
+      font-size: 16px;
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      width: 24px;
+      height: 24px;
+      background-color: white;
+      align-items: center;
+      justify-content: center;
+    }
+
+    fo-icon.add {
+      font-size: 2em;
+    }
+
+    p {
+      margin: 10px 0 0 0;
+    }
+
+    p#placeholder {
+      text-align: center;
+    }
+
+    input[type="file"] {
+      display: none !important;
+    }
+
+    p.error-output {
+      color: white;
+      padding: 1rem;
+      margin: 1rem 0 0 0;
+    }
+  }
+  div.container.border {
+    border-width: 1px;
+  }
+}
+:host[cover] {
+  div.container {
+    div#image {
+      background-size: cover;
+    }
+  }
+}

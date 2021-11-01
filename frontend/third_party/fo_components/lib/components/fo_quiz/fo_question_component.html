@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="questionContainer"
+       [class.transition]="transition"
+       [class.is-hidden]="leftHidden">
+    <h3 class="question"><span *ngIf="index != null">{{index+1}}.&nbsp;</span>{{model.label}}</h3>
+  </div>
+  <div class="answerContainer"
+       [class.transition]="transition"
+       [class.is-hidden]="rightHidden">
+    <div class="answer">
+      <fo-option *ngFor="let option of model.options"
+                 [model]="option"
+                 [disabled]="disabled"
+                 [class.selected]="option.selected"
+                 [buttonColor]="buttonColor"
+                 (trigger)="onOptionTrigger($event)"></fo-option>
+    </div>
+  </div>
+</div>
+<fo-quiz *ngIf="currentChildQuiz != null"
+         [disabled]="disabled"
+         [buttonColor]="buttonColor"
+         [model]="currentChildQuiz!"
+         (done)="onChildQuizDone($event)">
+</fo-quiz>
+<div id="stepButtons"
+     *ngIf="currentChildQuiz == null">
+  <div id="left">
+    <fo-button *ngIf="prevButtonLabel != null && !rightHidden"
+               class="fullWidth"
+               [disabled]="disabled"
+               [label]="$pipe.capitalize(prevButtonLabel!)"
+               [themeBackgroundColor]="buttonColor"
+               (trigger)="onPrevTrigger()">
+    </fo-button>
+  </div>
+  <div id="right">
+    <fo-button *ngIf="selectedOptions.isNotEmpty && !rightHidden"
+               class="fullWidth"
+               [disabled]="disabled"
+               [label]="$pipe.capitalize(nextButtonLabel!)"
+               [themeBackgroundColor]="buttonColor"
+               (trigger)="onNextTrigger()">
+    </fo-button>
+  </div>
+</div>

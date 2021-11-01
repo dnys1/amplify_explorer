@@ -1,0 +1,80 @@
+@import "../../constants.scss";
+@import "../../mixins.scss";
+@import "../fo_button/mixins";
+@import "../../src/components/fo_dropdown_list/mixins";
+@import "shared";
+
+:host {
+  display: block;
+  position: relative;
+  @include fo-button-vertical-padding(0.5em);
+
+  div#flexContainer {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    border-radius: $borderRadius;
+    border-width: 1px;
+    border-style: solid;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    input {
+      @include inputStyle;
+      padding: 0.5em 0.25em;
+      line-height: 1.5em;
+      outline: none;
+      margin: 0;
+      border: 0;
+    }
+
+    input::selection {
+      color: white;
+    }
+
+    fo-icon {
+      font-size: 1em;
+    }
+
+    fo-icon.clear {
+      cursor: pointer;
+      margin-right: 0.5em;
+    }
+
+    fo-icon.leadingIcon {
+      margin-left: 0.5em;
+    }
+    span.leadingText {
+      margin-left: 0.25em;
+    }
+
+    ::ng-deep fo-button > button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  fo-label.noLeftBorder {
+    div#flexContainer {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left-width: 0;
+    }
+  }
+
+  fo-label.noRightBorder {
+    div#flexContainer {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-right-width: 0;
+    }
+  }
+
+  fo-label.centerValue {
+    div#flexContainer {
+      input {
+        text-align: center;
+      }
+    }
+  }
+}

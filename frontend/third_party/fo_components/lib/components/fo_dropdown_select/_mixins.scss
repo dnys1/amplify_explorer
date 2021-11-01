@@ -1,0 +1,62 @@
+@mixin fo-dropdown-select-colors($selectedValueColor, $borderColor, $iconColor, $backgroundColor: white) {
+  ::ng-deep fo-dropdown-select {
+    div#flexContainer {
+      border-color: $borderColor;
+
+      div#selector {
+        div#selectedValue {
+          color: $selectedValueColor;
+        }
+
+        fo-icon {
+          color: $iconColor;
+        }
+      }
+      div#selector.disabled {
+        background-color: darken($backgroundColor, 5%) !important;
+      }
+    }
+  }
+}
+
+@mixin fo-dropdown-select-vertical-padding($top, $bottom) {
+  ::ng-deep fo-dropdown-select > {
+    div#flexContainer {
+      div#selector {
+        div#selectedValue {
+          padding-top: $top !important;
+          padding-bottom: $bottom !important;
+        }
+      }
+    }
+  }
+}
+
+@mixin fo-dropdown-select-horizontal-padding($left, $right) {
+  ::ng-deep fo-dropdown-select > {
+    div#flexContainer {
+      div#selector {
+        div#selectedValue {
+          padding-left: $left !important;
+        }
+        fo-icon.arrow {
+          padding-right: $right !important;
+        }
+      }
+    }
+  }
+}
+
+@mixin fo-dropdown-select-icon-size($size) {
+  ::ng-deep fo-dropdown-select {
+    div#flexContainer {
+      div#selector {
+        div#selectedValue {
+          fo-icon {
+            font-size: $size;
+          }
+        }
+      }
+    }
+  }
+}

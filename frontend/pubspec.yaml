@@ -1,5 +1,5 @@
 name: amplify_explorer
-description: An absolute bare-bones web app.
+description: Amplify GraphQL transformer playground
 version: 1.0.0
 publish_to: none
 
@@ -8,20 +8,7 @@ environment:
 
 dependencies:
   angular: ^7.0.0
-  # angular_components:
-  #   git:
-  #     url: https://github.com/angulardart-community/angular_components
-  #     path: angular_components
-  #     ref: dev
   fo_components: ^3.1.0
-  ngsecurity:
-    git:
-      url: https://github.com/angulardart-community/ngsecurity
-  # angular_bloc: ^7.0.0
-  # angular_forms:
-  #   path: ../../angular/angular_forms
-  # angular_router:
-  #   path: ../../angular/angular_router
   grid_css: ^3.0.0
   codemirror: ^0.6.0
   uuid: ^3.0.5
@@ -30,13 +17,8 @@ dependencies:
   http: ^0.13.4
   stream_transform: ^2.0.0
 
-# dependency_overrides:
-#   angular:
-#     path: ../../angular/angular
-
 dev_dependencies:
   amplify_lints: ^1.0.0
-  # angular_test: ^4.0.0
   build_runner: ^2.0.0
   build_web_compilers: ^3.2.1
   built_value_generator: ^8.1.2

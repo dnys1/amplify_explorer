@@ -442,15 +442,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  ngsecurity:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "23edc3d3065c052b1293df07b4da8cc2dbb631de"
-      url: "https://github.com/angulardart-community/ngsecurity"
-    source: git
-    version: "7.0.1"
   node_interop:
     dependency: transitive
     description:

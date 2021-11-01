@@ -6,11 +6,12 @@ import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:amplify_explorer/editor/editor_component.dart';
 import 'package:amplify_explorer/service/transform_service.dart';
-import 'package:amplify_explorer/model/transform_request.g.dart';
+import 'package:amplify_explorer/model/transform_request.dart';
 import 'package:fo_components/fo_components.dart';
 import 'package:http/http.dart' as http;
 
 import 'model/config.dart';
+import 'model/enum.dart';
 
 @Component(
   selector: 'home',
@@ -31,6 +32,7 @@ import 'model/config.dart';
   ],
   exports: [
     AppSyncAuthMode,
+    describeEnum,
   ],
 )
 class HomeComponent implements OnInit, AfterContentInit {
@@ -138,7 +140,7 @@ class HomeComponent implements OnInit, AfterContentInit {
       var defaultAuthModeStr = window.localStorage['defaultAuthMode'];
       if (defaultAuthModeStr != null) {
         config.defaultAuthMode = AppSyncAuthMode.values.firstWhere(
-          (mode) => mode.name == defaultAuthModeStr,
+          (mode) => describeEnum(mode) == defaultAuthModeStr,
         );
       }
       var additionalAuthModesStr = window.localStorage['additionalAuthModes'];
@@ -146,7 +148,8 @@ class HomeComponent implements OnInit, AfterContentInit {
         var additionalAuthModesList =
             (jsonDecode(additionalAuthModesStr) as List).cast<String>();
         var additionalAuthModes = additionalAuthModesList.map((value) =>
-            AppSyncAuthMode.values.firstWhere((mode) => mode.name == value));
+            AppSyncAuthMode.values
+                .firstWhere((mode) => describeEnum(mode) == value));
         config.additionalAuthModes.addAll(additionalAuthModes);
       }
       return config.build();
@@ -163,7 +166,7 @@ class HomeComponent implements OnInit, AfterContentInit {
   Set<AppSyncAuthMode> get additionalAuthModes =>
       UnmodifiableSetView(_config.additionalAuthModes.toSet());
   String get _encodedAdditionalAuthModes =>
-      jsonEncode(additionalAuthModes.map((val) => val.name).toList());
+      jsonEncode(additionalAuthModes.map((val) => describeEnum(val)).toList());
 
   Future<void> transform() async {
     if (isLoading) {
@@ -242,7 +245,7 @@ class HomeComponent implements OnInit, AfterContentInit {
       b.defaultAuthMode = mode;
       b.additionalAuthModes.remove(mode);
     });
-    window.localStorage['defaultAuthMode'] = mode.name;
+    window.localStorage['defaultAuthMode'] = describeEnum(mode);
     window.localStorage['additionalAuthModes'] = _encodedAdditionalAuthModes;
     _changeDetectorRef.markForCheck();
   }

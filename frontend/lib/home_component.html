@@ -52,9 +52,11 @@
   </div>
   <h4>Default Auth Mode</h4>
   <fo-radio-group [value]="defaultAuthMode" (valueChange)="updateDefaultMode">
-    <fo-radio *ngFor="let mode of AppSyncAuthMode.values" [label]="mode.name" [value]="mode" [checked]="defaultAuthMode == mode"></fo-radio>
+    <fo-radio *ngFor="let mode of AppSyncAuthMode.values" [label]="describeEnum(mode)" [value]="mode" [checked]="defaultAuthMode == mode"></fo-radio>
   </fo-radio-group>
   <hr>
   <h4>Additional Auth Modes</h4>
-  <fo-check *ngFor="let mode of AppSyncAuthMode.values" [checked]="additionalAuthModes.contains(mode)" (checkedChange)="updateAdditionalAuthMode(mode, $event)" [label]="mode.name" [disabled]="defaultAuthMode == mode"></fo-check>
+  <div class="checkbox-list">
+    <fo-check *ngFor="let mode of AppSyncAuthMode.values" [checked]="additionalAuthModes.contains(mode)" (checkedChange)="updateAdditionalAuthMode(mode, $event)" [label]="describeEnum(mode)" [disabled]="defaultAuthMode == mode"></fo-check>
+  </div>
 </fo-modal>

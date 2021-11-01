@@ -1,10 +1,11 @@
 import 'package:amplify_explorer/editor/editor_component.dart';
+import 'package:amplify_explorer/model/enum.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
 import 'serializers.dart';
-import 'transform_request.g.dart';
+import 'transform_request.dart';
 
 part 'config.g.dart';
 
@@ -47,12 +48,13 @@ class AppSyncAuthModeSerializer extends PrimitiveSerializer<AppSyncAuthMode> {
   @override
   AppSyncAuthMode deserialize(Serializers serializers, Object serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    return AppSyncAuthMode.values.firstWhere((el) => el.name == serialized);
+    return AppSyncAuthMode.values
+        .firstWhere((el) => describeEnum(el) == serialized);
   }
 
   @override
   Object serialize(Serializers serializers, AppSyncAuthMode object,
       {FullType specifiedType = FullType.unspecified}) {
-    return object.name;
+    return describeEnum(object);
   }
 }

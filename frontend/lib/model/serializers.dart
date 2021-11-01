@@ -1,6 +1,6 @@
 import 'package:built_value/serializer.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:amplify_explorer/model/transform_request.g.dart';
+import 'package:amplify_explorer/model/transform_request.dart';
 
 import 'auth_rule.dart';
 import 'claimant.dart';

@@ -170,6 +170,11 @@ fo-check {
   margin: 4px 0;
 }
 
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+}
+
 ::ng-deep #modalMain {
   padding: 0 15px 15px 15px !important;
 }

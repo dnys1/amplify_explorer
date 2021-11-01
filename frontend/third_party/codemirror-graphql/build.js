@@ -9,4 +9,4 @@ browserify({ entries: [ './src' ] })
         global: true
     })
     .bundle()
-    .pipe(fs.createWriteStream(path.join(__dirname, 'build', 'bundle.js'), 'utf8'));
+    .pipe(fs.createWriteStream(path.join(__dirname, '..', 'web', 'js', 'codemirror-graphql.js'), 'utf8'));

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node build.js && cp build/bundle.js ../web/js/codemirror-graphql.js"
+    "build": "node build.js"
   },
   "keywords": [],
   "author": "",

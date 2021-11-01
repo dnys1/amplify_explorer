@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:amplify_explorer/model/transform_request.g.dart';
-import 'package:amplify_explorer/model/transform_response.g.dart';
-import 'package:amplify_explorer/model/velocity_template_request.g.dart';
-import 'package:amplify_explorer/model/velocity_template_response.g.dart';
+import 'package:amplify_explorer/model/transform_request.dart';
+import 'package:amplify_explorer/model/transform_response.dart';
 import 'package:http/http.dart' as http;
 
 class TransformException implements Exception {
@@ -31,23 +29,5 @@ class TransformService {
     }
     final body = resp.body;
     return TransformResponse.fromJson(jsonDecode(body));
-  }
-
-  Future<VelocityTemplateResponse> render(
-    VelocityTemplateRequest request,
-  ) async {
-    final requestBody = jsonEncode(request);
-    final resp = await _client.post(
-      _baseUrl.resolve('vtl'),
-      body: requestBody,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    );
-    if (resp.statusCode != 200) {
-      throw TransformException(resp.body);
-    }
-    final body = resp.body;
-    return VelocityTemplateResponse.fromJson(jsonDecode(body));
   }
 }

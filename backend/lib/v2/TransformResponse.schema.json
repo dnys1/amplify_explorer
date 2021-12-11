@@ -1,0 +1,95 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "Record<string,any>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "Record<string,default>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "Record<string,string>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "Record<string,string|number|string[]>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "StackMapping": {
+            "additionalProperties": {
+                "type": "string"
+            },
+            "type": "object"
+        },
+        "StringMap": {
+            "additionalProperties": false,
+            "type": "object"
+        },
+        "default": {
+            "additionalProperties": false,
+            "properties": {
+                "AWSTemplateFormatVersion": {
+                    "type": "string"
+                },
+                "Conditions": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "Mappings": {
+                    "additionalProperties": {
+                        "additionalProperties": {
+                            "$ref": "#/definitions/Record<string,string|number|string[]>"
+                        },
+                        "type": "object"
+                    },
+                    "type": "object"
+                },
+                "Metadata": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
+                "Outputs": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
+                "Parameters": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
+                "Resources": {
+                    "$ref": "#/definitions/Record<string,any>"
+                },
+                "Transform": {
+                }
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "functions": {
+            "$ref": "#/definitions/Record<string,string>"
+        },
+        "pipelineFunctions": {
+            "$ref": "#/definitions/StringMap"
+        },
+        "resolvers": {
+            "$ref": "#/definitions/StringMap"
+        },
+        "rootStack": {
+            "$ref": "#/definitions/default"
+        },
+        "schema": {
+            "type": "string"
+        },
+        "stackMapping": {
+            "$ref": "#/definitions/StackMapping"
+        },
+        "stacks": {
+            "$ref": "#/definitions/Record<string,default>"
+        }
+    },
+    "type": "object"
+}
+

@@ -8,6 +8,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "30.0.0"
+  amplify_codegen:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "4c1eabd5545f84002fdedb8ad0beff7be7c3e1a2"
+      url: "https://github.com/dnys1/amplify_codegen"
+    source: git
+    version: "0.1.0"
   amplify_lints:
     dependency: "direct dev"
     description:
@@ -337,6 +346,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  gql:
+    dependency: transitive
+    description:
+      name: gql
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.1-alpha+1635885531641"
   graphs:
     dependency: transitive
     description:
@@ -709,4 +725,4 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.14.0 <3.0.0"
+  dart: ">=2.15.0 <3.0.0"

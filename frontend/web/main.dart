@@ -9,6 +9,6 @@ void main() {
 }
 
 @GenerateInjector(const [
-  const ClassProvider(TransformService),
+  const ClassProvider(TransformerService),
 ])
 final InjectorFactory injector = ng.injector$Injector;

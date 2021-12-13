@@ -1,9 +1,10 @@
 <template #dropdown>
   <fo-dropdown-select
-    [label]="showHeaderDropdown ? 'Choose a schema' : null" 
-    [options]="dropdownOptions" 
-    [selectedId]="selectedDropdownOption" 
-    (selectedIdChange)="onSelectSchema($event)">
+    [label]="showHeaderDropdown ? 'Choose a schema' : null"
+    [options]="dropdownOptions"
+    [selectedId]="selectedDropdownOption"
+    (selectedIdChange)="onSelectSchema($event)"
+  >
   </fo-dropdown-select>
 </template>
 
@@ -41,7 +42,12 @@
     <div *ngIf="errorText != null">
       <span class="error" [innerText]="errorText"></span>
     </div>
-    <editor *ngIf="errorText == null" [readOnly]="true" [(text)]="outputText" #output></editor>
+    <editor
+      *ngIf="errorText == null"
+      [readOnly]="true"
+      [(text)]="outputText"
+      #output
+    ></editor>
   </div>
 </div>
 
@@ -50,13 +56,32 @@
     <h4>Choose a schema</h4>
     <div [ngTemplateOutlet]="dropdown"></div>
   </div>
+  <h4>Transformer Version</h4>
+  <fo-dropdown-select
+    [label]="null"
+    [options]="versionOptions"
+    [selectedId]="selectedVersion"
+    (selectedIdChange)="onSelectVersion($event)"
+  >
+  </fo-dropdown-select>
   <h4>Default Auth Mode</h4>
   <fo-radio-group [value]="defaultAuthMode" (valueChange)="updateDefaultMode">
-    <fo-radio *ngFor="let mode of AppSyncAuthMode.values" [label]="describeEnum(mode)" [value]="mode" [checked]="defaultAuthMode == mode"></fo-radio>
+    <fo-radio
+      *ngFor="let mode of AppSyncAuthMode.values"
+      [label]="describeEnum(mode)"
+      [value]="mode"
+      [checked]="defaultAuthMode == mode"
+    ></fo-radio>
   </fo-radio-group>
-  <hr>
+  <hr />
   <h4>Additional Auth Modes</h4>
   <div class="checkbox-list">
-    <fo-check *ngFor="let mode of AppSyncAuthMode.values" [checked]="additionalAuthModes.contains(mode)" (checkedChange)="updateAdditionalAuthMode(mode, $event)" [label]="describeEnum(mode)" [disabled]="defaultAuthMode == mode"></fo-check>
+    <fo-check
+      *ngFor="let mode of AppSyncAuthMode.values"
+      [checked]="additionalAuthModes.contains(mode)"
+      (checkedChange)="updateAdditionalAuthMode(mode, $event)"
+      [label]="describeEnum(mode)"
+      [disabled]="defaultAuthMode == mode"
+    ></fo-check>
   </div>
 </fo-modal>

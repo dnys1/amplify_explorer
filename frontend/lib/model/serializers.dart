@@ -15,6 +15,7 @@ part 'serializers.g.dart';
   AuthRule,
   Claimant,
   ExplorerConfig,
+  TransformerVersion,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..add(AppSyncAuthModeSerializer())).build();

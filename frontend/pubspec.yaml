@@ -1,12 +1,16 @@
 name: amplify_explorer
 description: Amplify GraphQL transformer playground
-version: 1.0.0
+version: 2.0.0
 publish_to: none
 
 environment:
   sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
+  amplify_codegen:
+    git:
+      url: https://github.com/dnys1/amplify_codegen
+      ref: main
   angular: ^7.0.0
   built_collection: ^5.1.1
   built_value: ^8.1.2

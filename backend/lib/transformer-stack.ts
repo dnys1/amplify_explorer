@@ -5,18 +5,18 @@ import * as apigateway from '@aws-cdk/aws-apigateway';
 import * as path from 'path';
 
 // Schemas
-import * as transformRequestSchema from './TransformRequest.schema.json';
-import * as velocityTemplateRequestSchema from './VelocityTemplateRequest.schema.json';
+import * as v1RequestSchema from './v1/TransformRequest.schema.json';
+import * as v2RequestSchema from './v2/TransformRequest.schema.json';
 
 export class TransformerStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const transformerFunc = new NodejsFunction(this, 'TransformerFunction', {
+    const transformerV1Func = new NodejsFunction(this, 'TransformerV1Function', {
       memorySize: 1024,
       timeout: cdk.Duration.seconds(5),
       runtime: lambda.Runtime.NODEJS_14_X,
-      entry: path.join(__dirname, '../lambda/transformer.ts'),
+      entry: path.join(__dirname, '../lambda/v1/transformer.ts'),
       projectRoot: path.join(__dirname, '../lambda'),
       depsLockFilePath: path.join(__dirname, '../lambda/yarn.lock'),
       handler: 'handler',
@@ -33,7 +33,7 @@ export class TransformerStack extends cdk.Stack {
     })
 
     const transformerApi = new apigateway.RestApi(this, 'TransformerApi', {
-      description: 'GraphQL AppSync transformer',
+      description: 'Amplify GraphQL Transformer',
       deployOptions: {
         stageName: 'dev',
       },
@@ -44,27 +44,27 @@ export class TransformerStack extends cdk.Stack {
       },
     })
 
-    const graphqlModel = transformerApi.addModel('TransformRequest', {
-      schema: JSON.parse(JSON.stringify(transformRequestSchema)),
+    const v1Model = transformerApi.addModel('TransformerV1Request', {
+      schema: JSON.parse(JSON.stringify(v1RequestSchema)),
     })
 
-    const graphqlTransformer = transformerApi.root.addResource('graphql')
+    const graphqlTransformerV1 = transformerApi.root.addResource('v1')
 
-    graphqlTransformer.addMethod(
+    graphqlTransformerV1.addMethod(
       'POST',
-      new apigateway.LambdaIntegration(transformerFunc),
+      new apigateway.LambdaIntegration(transformerV1Func),
       {
         requestModels: {
-          'application/json': graphqlModel,
+          'application/json': v1Model,
         },
       }
     )
 
-    const velocityFunc = new NodejsFunction(this, 'VelocityTemplateFunction', {
+    const transformerV2Func = new NodejsFunction(this, 'TransformerV2Function', {
       memorySize: 1024,
       timeout: cdk.Duration.seconds(5),
       runtime: lambda.Runtime.NODEJS_14_X,
-      entry: path.join(__dirname, '../lambda/velocity-template.ts'),
+      entry: path.join(__dirname, '../lambda/v2/transformer.ts'),
       projectRoot: path.join(__dirname, '../lambda'),
       depsLockFilePath: path.join(__dirname, '../lambda/yarn.lock'),
       handler: 'handler',
@@ -80,18 +80,18 @@ export class TransformerStack extends cdk.Stack {
       }
     })
 
-    const velocityModel = transformerApi.addModel('VelocityTemplateRequest', {
-      schema: JSON.parse(JSON.stringify(velocityTemplateRequestSchema)),
+    const v2Model = transformerApi.addModel('TransformerV2Request', {
+      schema: JSON.parse(JSON.stringify(v2RequestSchema)),
     })
 
-    const velocityTransformer = transformerApi.root.addResource('vtl')
+    const graphqlTransformerV2 = transformerApi.root.addResource('v2')
 
-    velocityTransformer.addMethod(
+    graphqlTransformerV2.addMethod(
       'POST',
-      new apigateway.LambdaIntegration(velocityFunc),
+      new apigateway.LambdaIntegration(transformerV2Func),
       {
         requestModels: {
-          'application/json': velocityModel,
+          'application/json': v2Model,
         },
       }
     )

@@ -5,7 +5,18 @@ import 'package:angular/angular.dart';
 import 'package:codemirror/codemirror.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-const defaultSchema = '''
+const todoV1Schema = '''
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}''';
+
+const todoV2Schema = '''
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
 type Todo @model {
   id: ID!
   name: String!

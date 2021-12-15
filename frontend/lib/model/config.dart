@@ -9,17 +9,42 @@ import 'transform_request.dart';
 
 part 'config.g.dart';
 
+class TransformerVersion extends EnumClass {
+  static const TransformerVersion v1 = _$v1;
+  static const TransformerVersion v2 = _$v2;
+
+  const TransformerVersion._(String name) : super(name);
+
+  static BuiltSet<TransformerVersion> get values => _$TransformerVersionValues;
+  static TransformerVersion valueOf(String name) =>
+      _$TransformerVersionValueOf(name);
+
+  String serialize() {
+    return serializers.serializeWith(TransformerVersion.serializer, this)
+        as String;
+  }
+
+  static TransformerVersion? deserialize(String string) {
+    return serializers.deserializeWith(TransformerVersion.serializer, string);
+  }
+
+  static Serializer<TransformerVersion> get serializer =>
+      _$transformerVersionSerializer;
+}
+
 abstract class ExplorerConfig
     implements Built<ExplorerConfig, ExplorerConfigBuilder> {
   @BuiltValueHook(initializeBuilder: true)
   static void _setDefaults(ExplorerConfigBuilder b) => b
-    ..schema = defaultSchema
+    ..schema = todoV2Schema
+    ..transformerVersion = TransformerVersion.v2
     ..defaultAuthMode = AppSyncAuthMode.API_KEY
     ..additionalAuthModes.add(AppSyncAuthMode.AMAZON_COGNITO_USER_POOLS);
 
   ExplorerConfig._();
 
   String get schema;
+  TransformerVersion get transformerVersion;
   AppSyncAuthMode get defaultAuthMode;
   BuiltSet<AppSyncAuthMode> get additionalAuthModes;
 

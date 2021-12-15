@@ -1,0 +1,338 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "ApiKeyConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "apiKeyExpirationDate": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "apiKeyExpirationDays": {
+                    "type": "number"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "AuthTransformerConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "adminRoles": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "authConfig": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "additionalAuthenticationProviders": {
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "authenticationType": {
+                                                "enum": [
+                                                    "AMAZON_COGNITO_USER_POOLS"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "userPoolConfig": {
+                                                "$ref": "#/definitions/UserPoolConfig"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "apiKeyConfig": {
+                                                "$ref": "#/definitions/ApiKeyConfig"
+                                            },
+                                            "authenticationType": {
+                                                "enum": [
+                                                    "API_KEY"
+                                                ],
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "authenticationType": {
+                                                "enum": [
+                                                    "AWS_IAM"
+                                                ],
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "authenticationType": {
+                                                "enum": [
+                                                    "OPENID_CONNECT"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "openIDConnectConfig": {
+                                                "$ref": "#/definitions/OpenIDConnectConfig"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "authenticationType": {
+                                                "enum": [
+                                                    "AWS_LAMBDA"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "lambdaAuthorizerConfig": {
+                                                "$ref": "#/definitions/LambdaConfig"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            },
+                            "type": "array"
+                        },
+                        "defaultAuthentication": {
+                            "anyOf": [
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "authenticationType": {
+                                            "enum": [
+                                                "AMAZON_COGNITO_USER_POOLS"
+                                            ],
+                                            "type": "string"
+                                        },
+                                        "userPoolConfig": {
+                                            "$ref": "#/definitions/UserPoolConfig"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "apiKeyConfig": {
+                                            "$ref": "#/definitions/ApiKeyConfig"
+                                        },
+                                        "authenticationType": {
+                                            "enum": [
+                                                "API_KEY"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "authenticationType": {
+                                            "enum": [
+                                                "AWS_IAM"
+                                            ],
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "authenticationType": {
+                                            "enum": [
+                                                "OPENID_CONNECT"
+                                            ],
+                                            "type": "string"
+                                        },
+                                        "openIDConnectConfig": {
+                                            "$ref": "#/definitions/OpenIDConnectConfig"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "authenticationType": {
+                                            "enum": [
+                                                "AWS_LAMBDA"
+                                            ],
+                                            "type": "string"
+                                        },
+                                        "lambdaAuthorizerConfig": {
+                                            "$ref": "#/definitions/LambdaConfig"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            ]
+                        }
+                    },
+                    "type": "object"
+                },
+                "identityPoolId": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ConflictDetectionType": {
+            "enum": [
+                "NONE",
+                "VERSION"
+            ],
+            "type": "string"
+        },
+        "LambdaConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "lambdaFunction": {
+                    "type": "string"
+                },
+                "ttlSeconds": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
+        "OpenIDConnectConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "authTTL": {
+                    "type": "number"
+                },
+                "clientId": {
+                    "type": "string"
+                },
+                "iatTTL": {
+                    "type": "number"
+                },
+                "issuerUrl": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "UserPoolConfig": {
+            "additionalProperties": false,
+            "properties": {
+                "userPoolId": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "properties": {
+        "authOptions": {
+            "$ref": "#/definitions/AuthTransformerConfig"
+        },
+        "modelOptions": {
+            "additionalProperties": false,
+            "properties": {
+                "EnableDeletionProtection": {
+                    "type": "boolean"
+                },
+                "SyncConfig": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "ConflictDetection": {
+                                    "$ref": "#/definitions/ConflictDetectionType"
+                                },
+                                "ConflictHandler": {
+                                    "enum": [
+                                        "OPTIMISTIC_CONCURRENCY"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "ConflictDetection": {
+                                    "$ref": "#/definitions/ConflictDetectionType"
+                                },
+                                "ConflictHandler": {
+                                    "enum": [
+                                        "AUTOMERGE"
+                                    ],
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "ConflictDetection": {
+                                    "$ref": "#/definitions/ConflictDetectionType"
+                                },
+                                "ConflictHandler": {
+                                    "enum": [
+                                        "LAMBDA"
+                                    ],
+                                    "type": "string"
+                                },
+                                "LambdaConflictHandler": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "lambdaArn": {
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "region": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "predictionsOptions": {
+            "additionalProperties": false,
+            "properties": {
+                "bucketName": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "schema": {
+            "type": "string"
+        }
+    },
+    "type": "object"
+}
+

@@ -2,7 +2,7 @@ import { DynamoDBModelTransformer, DynamoDBModelTransformerOptions } from 'graph
 import { ModelAuthTransformer, ModelAuthTransformerConfig } from 'graphql-auth-transformer';
 import { ModelConnectionTransformer } from 'graphql-connection-transformer';
 import { PredictionsTransformer } from 'graphql-predictions-transformer';
-import { VersionedModelTransformer } from 'graphql-versioned-transformer';
+// import { VersionedModelTransformer } from 'graphql-versioned-transformer';
 import { KeyTransformer } from 'graphql-key-transformer';
 import { SearchableModelTransformer } from 'graphql-elasticsearch-transformer';
 import { FunctionTransformer } from 'graphql-function-transformer';
@@ -14,7 +14,8 @@ import {
     APIGatewayProxyResultV2,
 } from 'aws-lambda';
 import { TransformRequest } from './request-response';
-import { corsHeaders, FeatureFlags } from './common';
+import { FeatureFlags } from './flags';
+import { corsHeaders } from '../common';
 
 export const handler = async (
     event: APIGatewayProxyEventV2
@@ -36,7 +37,7 @@ export const handler = async (
             new ModelConnectionTransformer(),
             // new PredictionsTransformer(),
             new SearchableModelTransformer(),
-            new VersionedModelTransformer(),
+            // new VersionedModelTransformer(),
             // new FunctionTransformer(),
             new HttpTransformer(),
         ],

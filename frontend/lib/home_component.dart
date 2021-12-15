@@ -36,7 +36,7 @@ import 'model/enum.dart';
   ],
 )
 class HomeComponent implements OnInit, AfterContentInit {
-  final TransformService transformService;
+  final TransformerService transformService;
   final ChangeDetectorRef _changeDetectorRef;
 
   String outputText = '';
@@ -63,9 +63,22 @@ class HomeComponent implements OnInit, AfterContentInit {
     ]
   };
 
-  static const _schemas = {
-    'todo': defaultSchema,
-    'blog': blogSchema,
+  TransformerVersion get selectedVersion => _config.transformerVersion;
+  final Map<String, List<FoDropdownOption>> versionOptions = {
+    '': [
+      FoDropdownOption(TransformerVersion.v1, 'V1'),
+      FoDropdownOption(TransformerVersion.v2, 'V2'),
+    ]
+  };
+
+  static const _v1Schemas = {
+    'todo': todoV1Schema,
+    'blog': blogV1Schema,
+  };
+
+  static const _v2Schemas = {
+    'todo': todoV2Schema,
+    'blog': blogV2Schema,
   };
 
   void onSelectSchema(String schemaId) {
@@ -74,14 +87,29 @@ class HomeComponent implements OnInit, AfterContentInit {
         _downloadHabitrSchema();
         return;
       default:
-        updateText(_schemas[schemaId]!);
+        updateText(selectedVersion == TransformerVersion.v1
+            ? _v1Schemas[schemaId]!
+            : _v2Schemas[schemaId]!);
+    }
+  }
+
+  void onSelectVersion(TransformerVersion version) {
+    _config = _config.rebuild((c) => c.transformerVersion = version);
+    window.localStorage['version'] = version.name;
+    if (_config.schema == todoV1Schema || _config.schema == todoV2Schema) {
+      onSelectSchema('todo');
+    } else if (_config.schema == blogV1Schema ||
+        _config.schema == blogV2Schema) {
+      onSelectSchema('blog');
     }
   }
 
   Future<void> _downloadHabitrSchema() async {
     setBusy(true);
     try {
-      final resp = await http.get(habitrUrl);
+      final resp = await http.get(
+        selectedVersion == TransformerVersion.v1 ? habitrV1Url : habitrV2Url,
+      );
       if (resp.statusCode == 200) {
         updateText(resp.body);
         errorText = null;
@@ -98,9 +126,10 @@ class HomeComponent implements OnInit, AfterContentInit {
 
   HomeComponent(this.transformService, this._changeDetectorRef) {
     _config = _loadFromHash() ?? _loadFromStorage() ?? ExplorerConfig();
-    if (_config.schema == defaultSchema) {
+    if (_config.schema == todoV1Schema || _config.schema == todoV2Schema) {
       selectedDropdownOption = 'todo';
-    } else if (_config.schema == blogSchema) {
+    } else if (_config.schema == blogV1Schema ||
+        _config.schema == blogV2Schema) {
       selectedDropdownOption = 'blog';
     }
   }
@@ -122,7 +151,8 @@ class HomeComponent implements OnInit, AfterContentInit {
       // Chop off leading '#' character
       var hash = window.location.hash.substring(1);
       var json = jsonDecode(utf8.decode(base64Url.decode(hash))) as Object;
-      return ExplorerConfig.fromJson(json) ??
+      return ExplorerConfig.fromJson(json)?.rebuild(
+              (c) => c.transformerVersion ??= TransformerVersion.v1) ??
           (throw FormatException('Could not decode JSON: $json'));
     } catch (e) {
       window.console.error('Error decoding hash: $e');
@@ -152,6 +182,13 @@ class HomeComponent implements OnInit, AfterContentInit {
                 .firstWhere((mode) => describeEnum(mode) == value));
         config.additionalAuthModes.addAll(additionalAuthModes);
       }
+      var version = window.localStorage['version'];
+      if (version != null) {
+        config.transformerVersion = TransformerVersion.deserialize(version);
+      } else {
+        // Existing, pre-v2 configs will be null.
+        config.transformerVersion = TransformerVersion.v1;
+      }
       return config.build();
     } catch (e) {
       window.console.error('Error decoding localStorage: $e');
@@ -175,6 +212,7 @@ class HomeComponent implements OnInit, AfterContentInit {
     setBusy(true);
     try {
       final response = await transformService.transform(
+        selectedVersion,
         TransformRequest(
           schema: editorText,
           authOptions: AuthOptions(
@@ -267,7 +305,7 @@ class HomeComponent implements OnInit, AfterContentInit {
   }
 }
 
-const blogSchema = '''
+const blogV1Schema = '''
 type Blog @model {
   id: ID!
   name: String!
@@ -289,5 +327,32 @@ type Comment @model @key(name: "byPost", fields: ["postID", "content"]) {
   content: String!
 }''';
 
-final habitrUrl = Uri.parse(
-    'https://raw.githubusercontent.com/dnys1/habitr/master/amplify/backend/api/habitr/schema.graphql');
+const blogV2Schema = '''
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @hasMany
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  blog: Blog @belongsTo
+  comments: [Comment] @hasMany
+}
+
+type Comment @model {
+  id: ID!
+  post: Post @belongsTo
+  content: String!
+}''';
+
+final habitrV1Url = Uri.parse(
+    'https://raw.githubusercontent.com/dnys1/habitr/7ff11c529986750b5ffa1b47996a1ce1e40d5b3e/amplify/backend/api/habitr/schema.graphql');
+
+final habitrV2Url = Uri.parse(
+    'https://raw.githubusercontent.com/dnys1/habitr/main/amplify/backend/api/habitr/schema.graphql');

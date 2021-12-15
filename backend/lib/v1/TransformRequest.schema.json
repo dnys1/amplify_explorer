@@ -7,6 +7,7 @@
                 "AMAZON_COGNITO_USER_POOLS",
                 "API_KEY",
                 "AWS_IAM",
+                "AWS_LAMBDA",
                 "OPENID_CONNECT"
             ],
             "type": "string"
@@ -108,6 +109,10 @@
                                     "apiKeyConfig": {
                                         "additionalProperties": false,
                                         "properties": {
+                                            "apiKeyExpirationDate": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                            },
                                             "apiKeyExpirationDays": {
                                                 "type": "number"
                                             },
@@ -119,6 +124,18 @@
                                     },
                                     "authenticationType": {
                                         "$ref": "#/definitions/AppSyncAuthMode"
+                                    },
+                                    "lambdaAuthorizerConfig": {
+                                        "additionalProperties": false,
+                                        "properties": {
+                                            "lambdaFunction": {
+                                                "type": "string"
+                                            },
+                                            "ttlSeconds": {
+                                                "type": "number"
+                                            }
+                                        },
+                                        "type": "object"
                                     },
                                     "openIDConnectConfig": {
                                         "additionalProperties": false,
@@ -161,6 +178,10 @@
                                 "apiKeyConfig": {
                                     "additionalProperties": false,
                                     "properties": {
+                                        "apiKeyExpirationDate": {
+                                            "format": "date-time",
+                                            "type": "string"
+                                        },
                                         "apiKeyExpirationDays": {
                                             "type": "number"
                                         },
@@ -172,6 +193,18 @@
                                 },
                                 "authenticationType": {
                                     "$ref": "#/definitions/AppSyncAuthMode"
+                                },
+                                "lambdaAuthorizerConfig": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "lambdaFunction": {
+                                            "type": "string"
+                                        },
+                                        "ttlSeconds": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
                                 },
                                 "openIDConnectConfig": {
                                     "additionalProperties": false,
